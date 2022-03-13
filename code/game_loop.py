@@ -18,9 +18,9 @@ from core.abstract_game_loop import AbstractGameLoop
 
 class GameLoop(AbstractGameLoop):
 
-    def __init__(self, width, height, title, background_color='black'):
+    def __init__(self, width, height, title):
         icon_file = os.path.normpath("../resources/graphics/test/player.png")
-        super().__init__(width, height, title, pygame.image.load(icon_file), background_color)
+        super().__init__(width, height, title, pygame.image.load(icon_file), '#227c39')
         self.game = Game()
 
     def draw(self):
