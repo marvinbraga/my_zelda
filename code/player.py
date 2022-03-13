@@ -11,13 +11,20 @@ import os
 import pygame
 
 from code.core.movement_artefact import MovementArtefact
+from code.core.sprites_artefact import SpritesArtefact
 
 
-class Player(MovementArtefact):
+class Player(MovementArtefact, SpritesArtefact):
 
     def __init__(self, groups):
-        image = os.path.normpath('../resources/graphics/test/player.png')
-        super().__init__(image, (50, 50), groups)
+        super().__init__(None, (50, 50), groups)
+        self.sprites_path = os.path.normpath('../resources/graphics/player/')
+        self.animations = {
+            'up': [], 'down': [], 'left': [], 'right': [],
+            'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
+            'right_attack': [], 'left_attack': [], 'up_attack': [], 'down_attack': []
+        }
+        self.import_player_assets()
 
     def input(self):
         super().input()
@@ -38,3 +45,13 @@ class Player(MovementArtefact):
             self.direction.x = 0
 
         return self
+
+    def update_status(self):
+        self.status.update()
+        return self
+
+    def update(self):
+        self.input()
+        self.update_status()
+        self.move(self.speed)
+        self.animate()

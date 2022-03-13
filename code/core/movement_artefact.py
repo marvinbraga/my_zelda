@@ -21,18 +21,22 @@ class MovementArtefact(BaseArtefact):
         return self
 
     def up(self):
+        super().up()
         self.direction.y = -1
         return self
 
     def down(self):
+        super().down()
         self.direction.y = 1
         return self
 
     def left(self):
+        super().left()
         self.direction.x = -1
         return self
 
     def right(self):
+        super().right()
         self.direction.x = 1
         return self
 

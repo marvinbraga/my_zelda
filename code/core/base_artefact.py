@@ -62,3 +62,15 @@ class BaseArtefact(pygame.sprite.Sprite):
 
     def draw(self, window):
         return self
+
+    def up(self):
+        return self
+
+    def down(self):
+        return self
+
+    def left(self):
+        return self
+
+    def right(self):
+        return self
