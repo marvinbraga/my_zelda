@@ -1,9 +1,19 @@
+# coding=utf-8
+"""
+Marcus Vinicius Braga, 2022.
+marcus@marvinbraga.com.br
+https://github.com/marvinbraga/
+All rights reserved.
+
+Movement Artefact Module.
+"""
 import pygame
 
 from code.core.base_artefact import BaseArtefact
+from code.core.base_movement import BasicMovement
 
 
-class MovementArtefact(BaseArtefact):
+class MovementArtefact(BaseArtefact, BasicMovement):
 
     def __init__(self, image, pos, groups):
         super().__init__(image, pos, groups)
