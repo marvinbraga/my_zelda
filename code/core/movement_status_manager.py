@@ -66,6 +66,9 @@ class BaseMovementStatusManager:
         return status in self.status
 
     def update(self):
+        if not hasattr(self.artefact, 'direction'):
+            return self
+
         if self.artefact.direction.x == 0 and self.artefact.direction.y == 0:
             if not self._check(BaseMovementStatus.IDLE):
                 self._add(BaseMovementStatus.IDLE)

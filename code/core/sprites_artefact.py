@@ -32,10 +32,11 @@ class SpritesArtefact(BaseArtefact, BasicMovement):
         return self
 
     def animate(self):
-        animation = self.animations[self.status.value]
-        self.index = (self.index + self.animation_speed) % len(animation)
-        self.image = animation[int(self.index)]
-        self.rect = self.image.get_rect(center=self.hit_box.center)
+        animation = self.animations.get(self.status.value, [])
+        if animation:
+            self.index = (self.index + self.animation_speed) % len(animation)
+            self.image = animation[int(self.index)]
+            self.rect = self.image.get_rect(center=self.hit_box.center)
         return self
 
     def up(self):
