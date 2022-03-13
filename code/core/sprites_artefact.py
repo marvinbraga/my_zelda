@@ -60,6 +60,7 @@ class SpritesArtefact(BaseArtefact, BasicMovement):
         return self
 
     def update_status(self):
+        assert self.status, "You must instantiate a status object."
         self.status.update()
         return self
 
