@@ -15,14 +15,15 @@ from code.core.support import ImportFolder
 
 
 class SpritesArtefact(BaseArtefact, BasicMovement):
+    status = None
+    animations = {}
+    sprites_path = ''
 
     def __init__(self, image, pos, groups):
         super().__init__(image, pos, groups)
-        self.status = None
-        self.animations = {}
-        self.sprites_path = ''
         self.index = 0
         self.animation_speed = 0.15
+        self.import_assets()
 
     def import_assets(self):
         for animation in self.animations.keys():

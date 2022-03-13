@@ -19,7 +19,6 @@ from code.core.sprites_artefact import SpritesArtefact
 class Player(MovementArtefact, SpritesArtefact):
 
     def __init__(self, groups):
-        super().__init__(None, (50, 50), groups)
         self.status = BaseMovementStatusManager(self)
         self.sprites_path = os.path.normpath('../resources/graphics/player/')
         self.animations = {
@@ -27,7 +26,7 @@ class Player(MovementArtefact, SpritesArtefact):
             'right_idle': [], 'left_idle': [], 'up_idle': [], 'down_idle': [],
             'right_attack': [], 'left_attack': [], 'up_attack': [], 'down_attack': []
         }
-        self.import_assets()
+        super().__init__(None, (50, 50), groups)
 
     def input(self):
         super().input()
