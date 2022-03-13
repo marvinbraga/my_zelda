@@ -17,11 +17,15 @@ class BaseMovementStatus(Enum):
     RIGHT = 3, "right"
     LEFT = 4, "left"
 
+    @property
+    def name(self):
+        return self.value[1]
+
 
 class BaseMovementStatusManager:
 
-    def __init__(self, player):
-        self.player = player
+    def __init__(self, artefact):
+        self.artefact = artefact
         self.status = []
         self.down()
 
@@ -31,7 +35,7 @@ class BaseMovementStatusManager:
 
     @property
     def value(self):
-        return "_".join([str(status.value[1]) for status in self.status])
+        return "_".join([str(status.name) for status in self.status])
 
     def up(self):
         self.status = []
@@ -62,7 +66,7 @@ class BaseMovementStatusManager:
         return status in self.status
 
     def update(self):
-        if self.player.direction.x == 0 and self.player.direction.y == 0:
+        if self.artefact.direction.x == 0 and self.artefact.direction.y == 0:
             if not self._check(BaseMovementStatus.IDLE):
                 self._add(BaseMovementStatus.IDLE)
 
