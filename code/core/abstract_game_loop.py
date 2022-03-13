@@ -2,6 +2,7 @@
 """
 Marcus Vinicius Braga, 2022.
 marcus@marvinbraga.com.br
+https://github.com/marvinbraga/
 All rights reserved.
 
 Abstract Game Loop Module.
