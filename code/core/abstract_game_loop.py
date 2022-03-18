@@ -52,11 +52,15 @@ class AbstractGameLoop(metaclass=ABCMeta):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.loop = False
-                if event.key in self._valid_keys:
+                elif event.key in self._valid_keys:
                     self.check_keys(event)
+                else:
+                    self.check_events(event)
             elif event.type == pygame.KEYUP:
                 if event.key in self._valid_keys:
                     self.check_keys(event)
+                else:
+                    self.check_events(event)
             else:
                 self.check_events(event)
 
