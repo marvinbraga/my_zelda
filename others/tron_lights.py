@@ -24,8 +24,9 @@ GRID_SIZE = 10  # Tamanho das células da grade
 
 
 class LightWallSprite(pygame.sprite.Sprite):
-    def __init__(self, x, y, owner):
+    def __init__(self, x, y, owner, color=LIGHT_WALL_COLOR):
         super().__init__()
+        self.color = color
         self.image = pygame.Surface((CELL_SIZE, CELL_SIZE), pygame.SRCALPHA)
         self.rect = self.image.get_rect(topleft=(x, y))
         self.alpha = 255
@@ -41,7 +42,7 @@ class LightWallSprite(pygame.sprite.Sprite):
             self.update_image()
 
     def update_image(self):
-        color = LIGHT_WALL_COLOR + (int(self.alpha),)
+        color = self.color + (int(self.alpha),)
         self.image.fill(color)
 
 
@@ -91,6 +92,9 @@ class Game:
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Tron Game")
         self.clock = pygame.time.Clock()
+        self.reset_game()
+
+    def reset_game(self):
         self.walls_group = pygame.sprite.Group()
         self.players_group = pygame.sprite.Group()
         self.arena_walls = []
@@ -100,15 +104,22 @@ class Game:
         self.running = True
         self.player1_direction = 'right'
         self.player2_direction = 'left'
+        self.game_over_message = None
 
     def run(self):
+        while True:
+            self.game_loop()
+            if not self.show_game_over_screen():
+                break
+        pygame.quit()
+        sys.exit()
+
+    def game_loop(self):
         while self.running:
             self.handle_events()
             self.update()
             self.draw()
             self.clock.tick(60)
-        pygame.quit()
-        sys.exit()
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -200,15 +211,52 @@ class Game:
 
     def game_over(self, message):
         self.running = False
+        self.game_over_message = message
+
+    def show_game_over_screen(self):
         self.screen.fill(BLACK)
         font = pygame.font.Font(None, 36)
-        text = font.render(message, True, WHITE)
-        text_rect = text.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
+
+        # Exibir mensagem de fim de jogo
+        text = font.render(self.game_over_message, True, WHITE)
+        text_rect = text.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 50))
         self.screen.blit(text, text_rect)
+
+        # Exibir instruções para reiniciar ou sair
+        restart_text = font.render("Pressione R para reiniciar ou Q para sair", True, WHITE)
+        restart_rect = restart_text.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 + 50))
+        self.screen.blit(restart_text, restart_rect)
+
         pygame.display.flip()
-        pygame.time.wait(2000)
-        pygame.quit()
-        sys.exit()
+
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        self.reset_game()
+                        return True
+                    elif event.key == pygame.K_q:
+                        return False
+            self.clock.tick(60)
+
+        return False
+
+    def restart_game(self):
+        waiting = True
+        while waiting:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        self.reset_game()
+                        return True
+                    elif event.key == pygame.K_q:
+                        return False
+        return False
 
 
 if __name__ == "__main__":
